@@ -1,0 +1,30 @@
+﻿using AutoMapper;
+using DigitalConstructal.DTOs;
+using DigitalConstructal.Entities;
+
+namespace DigitalConstructal.Mappings
+{
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<UserLoginDto, UserLogin>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.GoogleId, opt => opt.MapFrom(src => src.GoogleId))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+
+            CreateMap<ProjectDto, Project>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.ContentTypeId, opt => opt.MapFrom(src => src.ContentTypeId))
+                .ForMember(dest => dest.Briefing, opt => opt.MapFrom(src => src.Briefing))
+                .ForMember(dest => dest.Brainstorm, opt => opt.MapFrom(src => src.Brainstorm));
+
+            CreateMap<ContentDto, Content>()
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId))
+                .ForMember(dest => dest.Body, opt => opt.MapFrom(src => src.Body));
+        }
+    }
+}
