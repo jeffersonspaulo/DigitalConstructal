@@ -16,6 +16,10 @@ namespace DigitalConstructal.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<SEOIndex> SEOIndexes { get; set; }
         public DbSet<UserLogin> UserLogins { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+        public DbSet<OrderStatus> OrdersStatus { get; set; }
+        public DbSet<Order> Orders { get; set; } 
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +49,45 @@ namespace DigitalConstructal.Data
             modelBuilder.Entity<UserLogin>()
                 .Property(ul => ul.CreatedAt)
                 .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Customer)
+                .WithMany()
+                .HasForeignKey(o => o.UserLoginId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.Seller)
+                .WithMany(s => s.Orders)
+                .HasForeignKey(o => o.SellerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.OrderStatus)
+                .WithMany()
+                .HasForeignKey(o => o.OrderStatusId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Order)
+                .WithMany(o => o.OrderProducts)
+                .HasForeignKey(op => op.OrderId);
+
+            modelBuilder.Entity<OrderProduct>()
+                .HasOne(op => op.Product)
+                .WithMany(p => p.OrderProducts) 
+                .HasForeignKey(op => op.ProductId);
+
+
+            // Seed dos dados fixos para OrderStatus
+            modelBuilder.Entity<OrderStatus>().HasData(
+                new OrderStatus { Id = 1, Name = "Pending" },
+                new OrderStatus { Id = 2, Name = "Processing" },
+                new OrderStatus { Id = 3, Name = "Shipped" },
+                new OrderStatus { Id = 4, Name = "Delivered" },
+                new OrderStatus { Id = 5, Name = "Cancelled" },
+                new OrderStatus { Id = 6, Name = "Returned" }
+            );
 
             // Seed dos dados fixos para ContentType
             modelBuilder.Entity<ContentType>().HasData(

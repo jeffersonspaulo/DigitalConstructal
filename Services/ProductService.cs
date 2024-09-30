@@ -33,9 +33,9 @@ namespace DigitalConstructal.Services
             return await _productRepository.GetByTitleAsync(title);
         }
 
-        async Task<PagedResult<Product>> GetPagedProductsAsync(string title, string description, int pageNumber, int pageSize)
+        public async Task<PagedResult<Product>> GetPagedProductsAsync(string? title, string? description, int pageNumber, int pageSize)
         {
-            return await _productRepository.GetPagedProductsAsync(pageNumber, pageSize, title, description);
+            return await _productRepository.GetPagedProductsAsync(title, description, pageNumber, pageSize);
         }
 
         public async Task InsertAsync(ProductDto projectDto)

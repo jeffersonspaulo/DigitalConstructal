@@ -18,7 +18,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string title, string description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> GetProducts(string? title, string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {

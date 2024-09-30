@@ -14,5 +14,7 @@
         public int? DomainAuthority { get; set; }
         public int? PageAuthority { get; set; }
         public DateTime? LastUpdated { get; set; }
+
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace DigitalConstructal.Data.Repository
                                  .ToListAsync();
         }
 
-        public async Task<PagedResult<Product>> GetPagedProductsAsync(string title, string description, int pageNumber, int pageSize)
+        public async Task<PagedResult<Product>> GetPagedProductsAsync(string? title, string? description, int pageNumber, int pageSize)
         {
             var query = _context.Products.AsQueryable();
 
