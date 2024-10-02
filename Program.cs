@@ -18,15 +18,16 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Register services 
+builder.Services.RegisterServices(builder.Configuration);
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Register memory cache
 builder.Services.AddMemoryCache();
-
-// Register services 
-builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 

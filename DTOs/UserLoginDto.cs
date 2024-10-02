@@ -16,6 +16,7 @@ namespace DigitalConstructal.DTOs
         [JsonPropertyName("google")]
         public string GoogleId { get; set; }
 
+        [JsonPropertyName("role")]
         public string Role { get; set; }
     }
 }

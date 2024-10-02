@@ -10,7 +10,7 @@ namespace DigitalConstructal.Controllers
         public OrderController() { }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrdersByCustomerId([FromQuery] int customerId)
+        public async Task<IActionResult> GetByCustomer([FromQuery] int customerId)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(OrderDto orderDto)
+        public async Task<IActionResult> Create(OrderDto orderDto)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace DigitalConstructal.Controllers
             }
         }
 
-        [HttpPut("status/{id}/{orderStatusId}")]
+        [HttpPut("{id}/status/{orderStatusId}")]
         public async Task<IActionResult> UpdateStatus(int id, int orderStatusId)
         {
             try
@@ -62,7 +62,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> CancelOrder(int id)
+        public async Task<IActionResult> Cancel(int id)
         {
             try
             {

@@ -1,4 +1,5 @@
 using DigitalConstructal.DTOs;
+using DigitalConstructal.Services;
 using DigitalConstructal.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string? title, string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        public async Task<IActionResult> Get(string? title, string? description, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProductById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace DigitalConstructal.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDto productDto)
+        public async Task<IActionResult> Update(int id, [FromBody] ProductDto productDto)
         {
             try
             {
@@ -79,8 +80,24 @@ namespace DigitalConstructal.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _productService.DeleteAsync(id);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return BadRequest(new { ErrorMessage = "An error occurred while processing the request." });
+            }
+        }
+
         [HttpPost("purchase")]
-        public async Task<IActionResult> PurchaseProduct()
+        public async Task<IActionResult> Purchase()
         {
             return Ok();
         }

@@ -1,7 +1,5 @@
 using AutoMapper;
 using DigitalConstructal.DTOs;
-using DigitalConstructal.Entities;
-using DigitalConstructal.Services;
 using DigitalConstructal.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +36,7 @@ namespace DigitalConstructal.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             try
