@@ -21,9 +21,9 @@ public class AuthController : Controller
     _userService = userService;
   }
 
-  public IActionResult ForgotPasswordBasic() => View();
-  public IActionResult LoginBasic() => View();
-  public IActionResult RegisterBasic() => View();
+  public IActionResult ForgotPassword() => View();
+  public IActionResult Login() => View();
+  public IActionResult Register() => View();
 
   public async Task<IActionResult> Register(UserLoginDto form)
   {
@@ -43,18 +43,19 @@ public class AuthController : Controller
     }
   }
 
-  public async Task<IActionResult> Login([FromBody] UserAuthDto auth)
+  [HttpPost]
+  public async Task<IActionResult> Login(string email, string password)
   {
     try
     {
-      var user = await _userService.GetByEmail(auth.Email);
+      var user = await _userService.GetByEmail(email);
 
-      if (user == null || !IsValidUser(auth.Password, user))
+      if (user == null || !IsValidUser(password, user))
       {
         return Unauthorized("Invalid username or password.");
       }
 
-      var token = GenerateToken(auth.Email);
+      var token = GenerateToken(email);
 
       return Ok(new { token });
     }
