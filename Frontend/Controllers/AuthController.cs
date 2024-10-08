@@ -25,26 +25,31 @@ public class AuthController : Controller
   public IActionResult Login() => View();
   public IActionResult Register() => View();
 
-  public async Task<IActionResult> Register(UserLoginDto form)
+  public async Task<IActionResult> RegisterSubmit(string name, string email, string password)
   {
     try
     {
-      if (await _userService.UserExistsAsync(form.Email))
+      if (await _userService.UserExistsAsync(email))
         return BadRequest("The Email is already in use.");
+
+      var form = new UserLoginDto{ Name = name, Email = email, Password = password };
 
       await _userService.Insert(form);
 
-      return Ok();
+      await _userService.Authenticate(email, HttpContext);
+
+      return RedirectToAction("Index", "Dashboards");
     }
     catch (Exception ex)
     {
       _logger.LogError(ex, ex.Message);
-      return BadRequest(new { ErrorMessage = "An error occurred while registering the user." });
+      return RedirectToAction("MiscUnderMaintenance", "Pages");
+      //return BadRequest(new { ErrorMessage = "An error occurred while registering the user." });
     }
   }
 
   [HttpPost]
-  public async Task<IActionResult> Login(string email, string password)
+  public async Task<IActionResult> LoginSubmit(string email, string password)
   {
     try
     {
@@ -55,14 +60,14 @@ public class AuthController : Controller
         return Unauthorized("Invalid username or password.");
       }
 
-      var token = GenerateToken(email);
+      await _userService.Authenticate(user.Email, HttpContext);
 
-      return Ok(new { token });
+      return RedirectToAction("Index", "Dashboards");
     }
     catch (Exception ex)
     {
       _logger.LogError(ex, ex.Message);
-      return BadRequest(new { ErrorMessage = "An error occurred while logging the user." });
+      return RedirectToAction("MiscUnderMaintenance", "Pages");
     }
   }
 

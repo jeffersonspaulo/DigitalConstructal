@@ -1,9 +1,9 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using DigitalConstructalWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalConstructalWeb.Controllers;
 
+[Authorize]
 public class DashboardsController : Controller
 {
   public IActionResult Index() => View();
